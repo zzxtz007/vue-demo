@@ -19,9 +19,11 @@
             </div>
           </div>
           <div style="height: 45px; "></div>
-          <input type="submit" class="btn" value="登录">
-        </div>
+          <input type="submit" class="btn" value="注册">
+          </div>
       </form>
+      <div style="height: 20px"></div>
+      <input style="background: #0793ff;" type="submit" class="btn" value="注册" v-on:click="register" >
     </div>
   </div>
 </template>
@@ -117,6 +119,12 @@ export default {
         .catch(() => {
           this.utils.systemError(this)
         })
+    },
+
+    register: function () {
+      this.$router.push({
+        name: 'Register'
+      })
     },
     // 设置密码是否可见
     seePsd: function () {

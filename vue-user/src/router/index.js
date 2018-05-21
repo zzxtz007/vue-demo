@@ -14,6 +14,7 @@ import foodCategoryManagement from '../pages/foodCategoryManagement'
 import foodManagement from '../pages/foodManagement'
 import preview from '../pages/Preview'
 import StallPreview from '../pages/StallPreview'
+import Register from '../pages/register'
 
 Vue.use(Router)
 
@@ -32,6 +33,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '/pages',

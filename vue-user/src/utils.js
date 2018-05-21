@@ -67,6 +67,12 @@ export default {
       duration: 2
     })
   },
+  appInfo: function (that, message) {
+    that.$Notice.info({
+      title: message,
+      duration: 3
+    })
+  },
 
   /**
    * 登录超时
