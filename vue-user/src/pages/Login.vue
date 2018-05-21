@@ -19,7 +19,7 @@
             </div>
           </div>
           <div style="height: 45px; "></div>
-          <input type="submit" class="btn" value="注册">
+          <input type="submit" class="btn" value="登录">
           </div>
       </form>
       <div style="height: 20px"></div>
