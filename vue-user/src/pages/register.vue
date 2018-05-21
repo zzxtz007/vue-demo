@@ -35,7 +35,7 @@
           </div>
           <div class="info">
             <span class="content">手机号：</span>
-            <input type="number" v-model.trim.number="phone" placeholder="输入手机号" class="input">
+            <input type="text" v-model.trim.number="phone" placeholder="输入手机号" class="input" @blur="checkPhone">
           </div>
           <div class="info">
             <span class="content">生日：</span>
@@ -90,7 +90,11 @@ export default {
     */
     checkPhone: function () {
       const phone = this.phone
-      return /^1(3|4|5|7|8)\d{9}$/.test(phone)
+      if (!/^1(3|4|5|7|8)\d{9}$/.test(phone)) {
+        this.utils.appInfo(this, '手机号格式不正确！')
+        return false
+      }
+      return true
     },
     register: function () {
       const that = this
@@ -106,7 +110,6 @@ export default {
       }
       // 判断手机号
       if (!this.checkPhone(this.phone)) {
-        this.utils.appInfo(this, '手机号格式不正确！')
         return
       }
       // 判断姓名
@@ -115,18 +118,18 @@ export default {
         return
       }
       // 判断日期
-      if (this.checkDate) {
+      if (!this.checkDate) {
         this.utils.appInfo(this, '日期不能为空！')
         return
       }
-      that.utlis.post('/api/consumers/membership', {studentId: this.phone, name: this.username})
+      this.utils.http.post('/api/consumers/membership', {studentId: this.username, name: this.name, phone: this.phone})
         .then(response => {
           const ret = parseInt(response.status)
           switch (ret) {
             case 0: {
               this.utils.appInfo(this, '注册成功！返回登录页面')
               that.$router.push({
-                name: 'login'
+                name: 'Login'
               })
               break
             }
