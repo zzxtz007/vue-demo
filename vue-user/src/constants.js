@@ -13,10 +13,10 @@ export default {
 
   // 图片文件夹的绝对路径
   imagePath: {
-    diningHall: '/upload/image/dining-hall/',
-    stall: '/upload/image/stall/',
-    food: '/upload/image/food/',
-    banner: '/upload/image/banner/'
+    diningHall: '/food-ordering/upload/image/dining-hall/',
+    stall: '/food-ordering/upload/image/stall/',
+    food: '/food-ordering/upload/image/food/',
+    banner: '/food-ordering/upload/image/banner/'
   },
 
   upload: {
