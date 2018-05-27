@@ -58,7 +58,7 @@ export default {
           switch (ret) {
             case 0:
               that.$router.push({
-                name: 'management'
+                name: 'Preview'
               })
               break
           }
@@ -94,7 +94,7 @@ export default {
         this.psdInfo()
         return false
       }
-      this.utils.http.post('/api/session', {role: 'stall', username: username, password: password})
+      this.utils.http.post('/api/session', {role: 'consumer', code: username})
         .then(response => {
           const ret = parseInt(response.status)
           switch (ret) {
@@ -102,13 +102,13 @@ export default {
               // 登录成功后调用安卓端存储用户名密码方法
               // window.AndroidJS.saveSessionInfo(username, password)
               that.$router.push({
-                name: 'management'
+                name: 'Preview'
               })
               break
             case 2:
               this.utils.timeOutLogin(this)
               break
-            case 4:
+            case 3:
               this.errInfo()
               break
             default:

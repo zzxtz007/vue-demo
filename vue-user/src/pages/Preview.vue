@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <transition name="fade">
-      <div class="column food-detail" v-if="visiable" @click="isShow">
+      <div class="column food-detail" v-if="visiable" >
         <div style="height: 70%">
           <img :src="imagePathFood + foodMessage.imageUrl"  alt="" style="height: 100%;width: 100%" v-if="foodMessage.imageUrl.length > 0">
           <img src="../../static/images/no-pic.png" alt="" style="height: 100%;width: 100%" v-else>
@@ -18,7 +18,7 @@
             <div class="row" style="font-size: 14px;position: relative">
               <span style="color: coral;overflow: auto">￥{{foodMessage.standardPrice}}</span>
               <span style="color: red;overflow: auto;margin-left: 5%" v-if="foodMessage.memberPrice >= 0">会员价  ￥{{foodMessage.memberPrice}}</span>
-              <button class="btn">直接购买</button>
+              <button class="btn" @click="isShowAndBuy(foodMessage)">直接购买</button>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
                   <div class="standard-price">￥{{singleFood.standardPrice}}</div>
                   <div v-if="singleFood.memberPrice" class="standard-price">/</div>
                   <div v-if="singleFood.memberPrice" class="member-price">￥{{singleFood.memberPrice}}会员价</div>
-                  <img  src="../../static/images/insert.png" class="add-img">
+                  <img  src="../../static/images/insert.png" class="add-img" @click="addCar(singleFood)">
                 </div>
               </div>
             </div>
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import bus from '../assets/eventBus'
 export default {
   name: 'preview',
   data () {
@@ -100,6 +101,10 @@ export default {
     }
   },
   methods: {
+    addCar: function (food) {
+      bus.$emit('changeBayCar', food)
+      this.visiable = !this.visiable
+    },
     /**
      * 检查登录状态
      * */
@@ -107,13 +112,13 @@ export default {
       const that = this
       this.utils.http.get('/api/session')
         .then(response => {
-          if (response.role !== 2) {
+          if (response.role !== 1) {
             this.utils.timeOutLogin()
           }
           const ret = parseInt(response.status)
           switch (ret) {
             case 0:
-              that.stallId = response.uid
+              that.stallId = 's_1'
               this.getStallInfo()
               this.getFoodCategory()
               break
@@ -232,6 +237,10 @@ export default {
     },
     isShow: function () {
       this.visiable = !this.visiable
+    },
+    isShowAndBuy: function (food) {
+      this.visiable = !this.visiable
+      bus.$emit('changeBayCar', food)
     }
   }
 }

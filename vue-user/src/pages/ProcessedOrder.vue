@@ -26,7 +26,7 @@
                   <span class='sta' v-if="order.status === 3">已拒单</span>
                   <span class='sta' v-if="order.status === 5">已退款</span>
                   <span class='sta' v-if="order.status === 6">已完成</span>
-                  <span class='sta' v-if="order.status === 8">退款失败</span>
+                  <span class='sta' v-if="order.status === 8">未退款</span>
                 </p>
               </div>
             </div>
@@ -232,12 +232,12 @@ export default {
       this.utils.http.get('/api/session')
         .then(response => {
           const ret = parseInt(response.status)
-          if (response.role !== 2) {
+          if (response.role !== 1) {
             this.utils.timeOutLogin()
           }
           switch (ret) {
             case 0:
-              this.stallId = response.uid
+              this.stallId = 's_1'
               this.getData()
               break
             case 2:
@@ -258,7 +258,7 @@ export default {
     getData: function () {
       this.array = []
       this.utils.http.get(
-        '/api/stalls/' + this.stallId + '/orders',
+        '/api/consumers/orders',
         {'statusList': JSON.stringify(this.list),
           'pageNum': this.pageNum,
           'pageSize': this.pageSize,

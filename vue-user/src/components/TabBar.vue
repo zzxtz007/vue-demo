@@ -28,10 +28,11 @@ export default {
       showTabBarFlag: true,
       assets: require('assert'),
       buttons: [
-        {name: '未处理', imageUrl: require('../../static/images/dh-logo-U.png'), url: '/pages/untreated'},
-        {name: '已处理', imageUrl: require('../../static/images/dh-logo-finish-O.png'), url: '/pages/processedOrder'},
-        {name: '退款', imageUrl: require('../../static/images/dh-logo-refund.png'), url: '/pages/refund'},
-        {name: '管理', imageUrl: require('../../static/images/dh-logo-admin.png'), url: '/pages/management'}
+        {name: '浏览菜单', imageUrl: require('../../static/images/dh-logo-finish-O.png'), url: '/pages/preview'},
+        {name: '购物车', imageUrl: require('../../static/images/dh-logo-baycar.png'), url: '/pages/bayCar'},
+        // todo 1 购物车页面 2 个人的订单   3 个人用户信息
+        {name: '订单', imageUrl: require('../../static/images/dh-logo-refund.png'), url: '/pages/processedOrder'},
+        {name: '个人信息', imageUrl: require('../../static/images/dh-logo-admin.png'), url: '/pages/stallUpdate'}
       ],
       notViewedCountList: [0, 0, 0, 0],
       stallId: '',

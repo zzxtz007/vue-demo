@@ -1,26 +1,34 @@
 <template>
     <div class="container">
       <div  class="file">
-        <template v-if="showFlag">
-          <img src="../../static/images/upload.jpg" alt="" style="width: 100px;height: 100px;z-index: 1;">
-        </template>
-        <template v-else>
-          <img :src="imagePath + imgUrl" alt="" style="width: 100px;height: 100px;z-index: 1;">
-        </template>
-        <input type="file" v-on:change="onFileChange($event)"  id="chosePic" style="width: 100px;height: 100px" accept="image/*">
+        <!--<template v-if="showFlag">-->
+          <!--<img src="../../static/images/upload.jpg" alt="" style="width: 100px;height: 100px;z-index: 1;">-->
+        <!--</template>-->
+        <!--<template v-else>-->
+          <!--<img :src="imagePath + imgUrl" alt="" style="width: 100px;height: 100px;z-index: 1;">-->
+        <!--</template>-->
+        <!--<input type="file" v-on:change="onFileChange($event)"  id="chosePic" style="width: 100px;height: 100px" accept="image/*">-->
       </div>
       <div class="static-msg">
-        商户名称：
+        用户名称：
       </div>
-      <i-input :value.sync="value" v-model="name" style="width: 80%;" id="name"></i-input>
+      <i-input :value.sync="value" v-model="username" style="width: 80%;" id="username"></i-input>
       <div class="static-msg">
         手机号码：
       </div>
       <i-input :value.sync="value" v-model="phone" style="width: 80%;" id="phone" v-on:change="checkPhone" :maxlength="11"></i-input>
       <div class="static-msg">
-        描述：
+        姓名：
       </div>
-      <i-input type="textarea" placeholder="50字以内" :rows="4" v-model="introduction"  style="width: 80%;" id="introduction" :maxlength="50"></i-input>
+      <i-input :value.sync="value" v-model="name" style="width: 80%;" id="name"></i-input>
+      <div class="static-msg">
+        旧密码：
+      </div>
+      <i-input :value.sync="value" v-model="oldPwd" style="width: 80%;" id="oldPwd"></i-input>
+      <div class="static-msg">
+        新密码：
+      </div>
+      <i-input :value.sync="value" v-model="newPwd" style="width: 80%;" id="newPwd"></i-input>
       <div class="btn-container">
         <i-button type="error" style="width: 40%;margin-top: 20px;margin-left: 7.5%" @click="reset">重置</i-button>
         <i-button type="info" style="width: 40%;margin-top: 20px;margin-left: 5%" @click="save">保存</i-button>
@@ -196,12 +204,11 @@ export default {
         })
     },
     /*
-    获取商户信息
+    获取用户信息
     */
     getStallInfo: function () {
       const that = this
-      const stallId = this.stallId
-      this.utils.http.get('/api/stalls/' + stallId)
+      this.utils.http.get('/api/consumers')
         .then(response => {
           const ret = parseInt(response.status)
           switch (ret) {

@@ -44,7 +44,7 @@
           <div style="height: 45px; "></div>
           <div style="display: flex;justify-content:center;">
             <input type="submit" class="btn" style="width: 120px;" value="注册">
-            <button class="btn" style="width: 120px;background-color: #fdbcaa" >返回</button>
+            <button class="btn" style="width: 120px;background-color: #fdbcaa" @click="back" >返回</button>
           </div>
         </div>
       </form>
@@ -138,6 +138,11 @@ export default {
             }
           }
         })
+    },
+    back: function () {
+      this.$router.push({
+        name: 'Login'
+      })
     }
   }
 }

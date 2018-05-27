@@ -15,6 +15,7 @@ import foodManagement from '../pages/foodManagement'
 import preview from '../pages/Preview'
 import StallPreview from '../pages/StallPreview'
 import Register from '../pages/register'
+import bayCar from '../pages/PayCar'
 
 Vue.use(Router)
 
@@ -109,6 +110,11 @@ export default new Router({
           path: 'foodManagement',
           name: 'foodManagement',
           component: foodManagement
+        },
+        {
+          path: 'bayCar',
+          name: 'bayCar',
+          component: bayCar
         }
       ]
     }]
