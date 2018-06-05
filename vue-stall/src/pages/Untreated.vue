@@ -368,7 +368,7 @@ export default {
               this.accept()
               this.info.splice(this.index, 1)
               this.index = ''
-              window.AndroidJS.playSound(this.const.soundType.acceptOrderSuccess)
+              // window.AndroidJS.playSound(this.const.soundType.acceptOrderSuccess)
               bus.$emit('untreatedOrderAccept')
               bus.$emit('orderControl')
               break

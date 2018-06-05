@@ -40,12 +40,14 @@
         </FormItem>
         <FormItem prop="standardPrice" label="菜品价格">
           <div class="input-body" style="text-align: right">
+            <!--<Input type="text" v-model="foodMap.standardPrice" placeholder="请填写" style="width: 70%;" />-->
             <Input type="text" v-model="foodMap.standardPrice" placeholder="请填写" style="width: 70%;" @on-focus="focus"/>
           </div>
         </FormItem>
         <FormItem prop="packFee" label="打包费">
           <div class="input-body" style="text-align: right">
             <Input type="text" v-model="foodMap.packFee" placeholder="请填写" style="width: 70%" @on-focus="focus"/>
+            <!--<Input type="text" v-model="foodMap.packFee" placeholder="请填写" style="width: 70%" />-->
           </div>
         </FormItem>
         <template v-if="type === 'change'">
