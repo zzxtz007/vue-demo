@@ -117,16 +117,16 @@ export default {
      * @param {Number} index 商品下标
      */
     changeQty: function (isAdd, item) {
-      // const num = item.quantity,
+      let num = item.quantity
       //   stock = item.stock
       //
-      // if (isAdd && num < stock) {
-      //   this.$set(item, 'quantity', ++num)
-      // } else if (!isAdd && num > 1) {
-      //   this.$set(item, 'quantity', --num)
-      // }
-
-      this.$set(item, 'subtotal', 9)
+      if (isAdd) {
+        num = num + 1
+        this.$set(item, 'quantity', num)
+      } else {
+        num = num - 1
+        this.$set(item, 'quantity', num)
+      }
     },
 
     /**

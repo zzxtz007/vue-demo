@@ -39,8 +39,7 @@ export default {
       refundIndex: 2,
       untreatedIndex: 0,
       refundStatus: [4],
-      untreatedStatus: [1],
-      cart: []
+      untreatedStatus: [1]
     }
   },
   created () {
@@ -74,7 +73,6 @@ export default {
      *
      */
     bus.$on('changeBayCar', food => {
-      console.log(that.cart)
       const item = {}
       item['imageUrl'] = food.imageUrl
       item['name'] = food.name
@@ -82,11 +80,8 @@ export default {
       item['standardPrice'] = food.standardPrice
       item['quantity'] = 1
       item['checked'] = false
-      // const len = that.cart.length
-      that.cart.push(item)
-      global.car.push(item)
-      // that.$set(that.cart, len, item)
-      // bus.$emit('getBuyCar', that.cart)
+      // 去重数组
+      this.quchong(global.car, item)
     })
 
     /**
@@ -133,7 +128,18 @@ export default {
     })
   },
   methods: {
-
+    quchong: function (car, item) {
+      let flag = true
+      car.forEach(function (e, index) {
+        if (e.id === item.id) {
+          e.quantity = e.quantity + 1
+          flag = false
+        }
+      })
+      if (flag) {
+        car.push(item)
+      }
+    },
     /**
      * 切换 TabBar 显隐问题，解决 fixed 定位和虚拟键盘问题
      */
