@@ -21,7 +21,7 @@ export default {
      * @param orderId 订单 id
      */
     addOrder: function (orderId) {
-      window.AndroidJS.playSound(this.const.soundType.newOrder)
+      // window.AndroidJS.playSound(this.const.soundType.newOrder)
       bus.$emit('addOrder', orderId)
       bus.$emit('addUntreatedNotViewedCount')
     },
@@ -40,7 +40,7 @@ export default {
      * @param orderId
      */
     addRefundOrder: function (orderId) {
-      window.AndroidJS.playSound(this.const.soundType.newRefund)
+      // window.AndroidJS.playSound(this.const.soundType.newRefund)
       bus.$emit('addRefundOrder', orderId)
       bus.$emit('addRefundNotViewedCount')
     },

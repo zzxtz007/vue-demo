@@ -168,11 +168,28 @@ export default {
     checkSession: function () {
       this.utils.http.get('/api/session')
         .then(response => {
-          this.stallId = response.uid
-          // this.fetchAllUntreatedOrder()
-          this.$set(this.notViewedCountList, this.refundIndex, 0)
-          this.$set(this.notViewedCountList, this.untreatedIndex, 0)
-          // this.fetchAllRefundOrder()
+          if (response.role !== 1) {
+            this.utils.timeOutLogin(this)
+          }
+          const ret = parseInt(response.status)
+          switch (ret) {
+            case 0:
+              this.stallId = response.uid
+              // this.fetchAllUntreatedOrder()
+              this.$set(this.notViewedCountList, this.refundIndex, 0)
+              this.$set(this.notViewedCountList, this.untreatedIndex, 0)
+              // this.fetchAllRefundOrder()
+              break
+            case 2:
+              this.utils.timeOutLogin(this)
+              break
+            case 3:
+              this.$Message.error('参数异常')
+              break
+            default:
+              this.utils.systemError(this)
+              break
+          }
         })
     },
 

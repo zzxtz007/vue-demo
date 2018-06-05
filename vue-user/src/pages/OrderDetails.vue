@@ -1,5 +1,13 @@
 <template>
   <div id="content">
+    <div style="width: 100%;text-align: center; padding-top: 50px" v-if="orderInfo.status === 0">
+      <img src="../../static/images/refund-t.png"/>
+      <h4 style="color:#81ced9 ;">未支付</h4>
+    </div>
+    <div style="width: 100%;text-align: center; padding-top: 50px" v-if="orderInfo.status === 1">
+      <img src="../../static/images/refund-t.png"/>
+      <h4 style="color:#81ced9 ;">待接单</h4>
+    </div>
     <div style="width: 100%;text-align: center; padding-top: 50px" v-if="orderInfo.status === 2">
       <img src="../../static/images/dh-logo-finish.png"/>
       <h4 style="color:#81ced9 ;">已完成</h4>
@@ -59,11 +67,15 @@
         <!--<Modal  v-model="modal2" title="请您确认"  @on-ok="getStallInfo">-->
           <!--<p>是否打印订单</p>-->
         <!--</Modal>-->
-
-        <i-button type="primary" class="btn"  v-if="orderInfo.status === 4"
+        <i-button type="primary" class="btn"  v-if="orderInfo.status === 0"
+                  @click="modal2 = true; pay(orderInfo)">去支付</i-button>
+        <Modal  v-model="modal2" title="请您确认"  @on-ok="agreePay">
+          <p>是否同意支付{{orderInfo | priceFilter}}元</p>
+        </Modal>
+        <i-button type="primary" class="btn"  v-if="orderInfo.status === 1"
                   @click="modal1 = true; refund(orderInfo)">退款</i-button>
         <Modal  v-model="modal1" title="请您确认"  @on-ok="agree">
-          <p>是否同意退款</p>
+          <p>是否申请退款</p>
         </Modal>
       </div>
     </ul>
@@ -235,8 +247,42 @@ export default {
       let that = this
       that.stallId = order.stallId
     },
+    pay: function (order) {
+      let that = this
+      that.orderId = order.id
+    },
     refundSuccess: function () {
       this.$Message.info('订单退款成功')
+    },
+    /**
+     * 同意付款
+     */
+    agreePay: function () {
+      this.utils.http.post('/api/orders/' + this.orderId + '/payment')
+        .then(response => {
+          let ret = parseInt(response.status)
+          switch (ret) {
+            case 0:
+              this.utils.appInfo(this, '付款完成，等待商户接单！')
+              this.getOrderDetail(this.orderId)
+              break
+            case 2:
+              this.utils.timeOutLogin(this)
+              break
+            case 4:
+              this.$Notice.warning({
+                title: '退款失败',
+                desc: '余额不足，退款失败',
+                duration: 0
+              })
+              break
+            default:
+              this.utils.systemError(this)
+          }
+        })
+        .catch(() => {
+          this.utils.systemError(this)
+        })
     },
     /**
        * 同意退款

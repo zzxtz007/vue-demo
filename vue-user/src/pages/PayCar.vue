@@ -94,7 +94,7 @@ export default {
     }
   },
   created () {
-    this.cart = global.car
+    this.checkSession()
   },
 
   mounted () {
@@ -111,6 +111,33 @@ export default {
     // bus.$off('getBuyCar')
   },
   methods: {
+    checkSession: function () {
+      const that = this
+      this.utils.http.get('/api/session')
+        .then(response => {
+          if (response.role !== 1) {
+            that.utils.timeOutLogin(that)
+          }
+          const ret = parseInt(response.status)
+          switch (ret) {
+            case 0:
+              that.cart = global.car
+              break
+            case 2:
+              that.utils.timeOutLogin(that)
+              break
+            case 3:
+              that.$Message.error('参数异常')
+              break
+            default:
+              that.utils.systemError(that)
+              break
+          }
+        })
+        .catch(() => {
+          that.utils.systemError(that)
+        })
+    },
     /**
      * @method 增减单品数量
      * @param {Boolean} isAdd 是否增加
@@ -208,7 +235,7 @@ export default {
         }
       })
       console.log(foodCountMap)
-      that.utils.http.get('/api/orders', {
+      that.utils.http.post('/api/orders', {
         foodCountMap: JSON.stringify(foodCountMap),
         stallId: 's_1',
         phone: '13998441126',

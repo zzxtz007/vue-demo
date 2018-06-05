@@ -26,13 +26,13 @@
       </template>
       <template v-else>
         <div class="static-msg">
-          旧密码：
+          密码：
         </div>
-        <i-input :value.sync="value" v-model="oldPwd" style="width: 80%;" id="oldPwd"></i-input>
+        <i-input :value.sync="value" type="password" v-model="oldPwd" style="width: 80%;" id="oldPwd"></i-input>
         <div class="static-msg">
-          新密码：
+          再次输入密码：
         </div>
-        <i-input :value.sync="value" v-model="newPwd" style="width: 80%;" id="newPwd"></i-input>
+        <i-input :value.sync="value" type="password" v-model="newPwd" style="width: 80%;" id="newPwd"></i-input>
         <i-button type="info" style="width: 80%;margin-top: 20px;" @click="changePwd">修改密码</i-button>
       </template>
       <div class="btn-container">
@@ -77,7 +77,7 @@ export default {
       this.utils.http.get('/api/session')
         .then(response => {
           if (response.role !== 1) {
-            this.utils.timeOutLogin()
+            this.utils.timeOutLogin(this)
           }
           const ret = parseInt(response.status)
           switch (ret) {

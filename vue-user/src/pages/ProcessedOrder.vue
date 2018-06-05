@@ -22,6 +22,8 @@
               </div>
               <div class='status'>
                 <p>
+                  <span class='sta' v-if="order.status === 0">未支付</span>
+                  <span class='sta' v-if="order.status === 1">待接单</span>
                   <span class='sta' v-if="order.status === 2">已完成</span>
                   <span class='sta' v-if="order.status === 3">已拒单</span>
                   <span class='sta' v-if="order.status === 5">已退款</span>

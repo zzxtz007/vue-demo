@@ -113,7 +113,7 @@ export default {
       this.utils.http.get('/api/session')
         .then(response => {
           if (response.role !== 1) {
-            this.utils.timeOutLogin()
+            this.utils.timeOutLogin(this)
           }
           const ret = parseInt(response.status)
           switch (ret) {

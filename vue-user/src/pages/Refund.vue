@@ -287,7 +287,7 @@ export default {
           switch (ret) {
             case 0:
               this.$Message.info('订单退款成功')
-              window.AndroidJS.playSound(this.const.soundType.refundSuccess)
+              // window.AndroidJS.playSound(this.const.soundType.refundSuccess)
               this.orderArr.splice(this.index, 1)
               bus.$emit('refundSuccess')
               bus.$emit('refundControl')
