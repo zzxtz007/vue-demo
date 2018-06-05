@@ -17,7 +17,7 @@
 
 <script>
 import bus from '../assets/eventBus'
-
+import global from '../global'
 export default {
   name: 'tab-bar',
   data () {
@@ -39,7 +39,8 @@ export default {
       refundIndex: 2,
       untreatedIndex: 0,
       refundStatus: [4],
-      untreatedStatus: [1]
+      untreatedStatus: [1],
+      cart: []
     }
   },
   created () {
@@ -66,6 +67,26 @@ export default {
     bus.$on('addUntreatedNotViewedCount', function () {
       let count = that.notViewedCountList[untreatedIndex] + 1
       that.$set(that.notViewedCountList, untreatedIndex, count)
+    })
+
+    /**
+     * 购物车的添加
+     *
+     */
+    bus.$on('changeBayCar', food => {
+      console.log(that.cart)
+      const item = {}
+      item['imageUrl'] = food.imageUrl
+      item['name'] = food.name
+      item['id'] = food.id
+      item['standardPrice'] = food.standardPrice
+      item['quantity'] = 1
+      item['checked'] = false
+      // const len = that.cart.length
+      that.cart.push(item)
+      global.car.push(item)
+      // that.$set(that.cart, len, item)
+      // bus.$emit('getBuyCar', that.cart)
     })
 
     /**
@@ -142,8 +163,10 @@ export default {
       this.utils.http.get('/api/session')
         .then(response => {
           this.stallId = response.uid
-          this.fetchAllUntreatedOrder()
-          this.fetchAllRefundOrder()
+          // this.fetchAllUntreatedOrder()
+          this.$set(this.notViewedCountList, this.refundIndex, 0)
+          this.$set(this.notViewedCountList, this.untreatedIndex, 0)
+          // this.fetchAllRefundOrder()
         })
     },
 

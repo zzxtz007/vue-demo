@@ -26,3 +26,7 @@ window.printerConnected = function () {
 window.printerDisconnected = function () {
   window.vm.$children[0].printerDisconnected()
 }
+//
+// window.getBuyCar = function () {
+//   window.vm.$children[0].getBuyCar()
+// }

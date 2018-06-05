@@ -178,7 +178,7 @@ export default {
       var that = this
       this.utils.http.get('/api/session')
         .then(response => {
-          if (response.role !== 2) {
+          if (response.role !== 1) {
             that.utils.timeOutLogin(that)
           }
           var ret = parseInt(response.status)

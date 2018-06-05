@@ -240,6 +240,7 @@ export default {
     },
     isShowAndBuy: function (food) {
       this.visiable = !this.visiable
+      // cart.push(food)
       bus.$emit('changeBayCar', food)
     }
   }

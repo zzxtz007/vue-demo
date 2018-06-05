@@ -189,7 +189,8 @@ export default {
       let that = this
       this.utils.http.get('/api/session')
         .then(response => {
-          if (response.role !== 2) {
+          console.log(response)
+          if (response.role !== 1) {
             that.utils.timeOutLogin(that)
           }
           let ret = parseInt(response.status)
@@ -276,7 +277,7 @@ export default {
     },
     /* 获取商户信息 */
     getStallInfo: function () {
-      const stallId = this.stallId
+      const stallId = 's_1'
       this.utils.http.get('/api/stalls/' + stallId)
         .then(response => {
           const ret = parseInt(response.status)

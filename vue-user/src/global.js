@@ -1,7 +1,7 @@
 import utils from './utils'
-
+var cart = []
 export default {
-
+  car: cart,
   /**
    * @Param orderId 订单号 stallId 商户id
    * 接单

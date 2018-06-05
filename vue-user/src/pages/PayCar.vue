@@ -80,8 +80,7 @@
 </template>
 
 <script>
-import bus from '../assets/eventBus'
-
+import global from '../global'
 export default {
   name: 'pay-car',
   data: function () {
@@ -89,31 +88,27 @@ export default {
       checkAllFlag: false,
       selectedNum: 0,
       delFlag: false,
-      cart: [],
       visiable: false,
-      imagePathFood: this.const.imagePath.food
+      imagePathFood: this.const.imagePath.food,
+      cart: []
     }
   },
   created () {
-    // bus.$on('changeBayCar', food => {
-    //   console.log(this.cart.length)
-    //   this.cart.push(food)
-    // })
-    const item = {}
-    item['imageUrl'] = 'ca63db66-6de8-45aa-a340-3b5f8422a898.png'
-    item['name'] = '雪菜肉丝包'
-    item['id'] = '7'
-    item['standardPrice'] = '1'
-    item['quantity'] = 1
-    item['checked'] = false
-    this.cart.push(item)
+    this.cart = global.car
   },
-  mounted () {
 
+  mounted () {
+    // bus.$on('getBuyCar', c => {
+    //   console.log(c)
+    //   console.log(alllllllll)
+    //   // this.$set(this.cart, c)
+    //   this.cart = c
+    // })
+    // console.log(this.cart)
   },
   beforeDestroy () {
     // 在页面销毁前，删除所有响应事件
-    // bus.$off('changeBayCar')
+    // bus.$off('getBuyCar')
   },
   methods: {
     /**
@@ -152,6 +147,7 @@ export default {
      * @method 全选
      */
     checkAll: function () {
+      console.log(this.cart)
       var self = this
       this.checkAllFlag = !this.checkAllFlag
 

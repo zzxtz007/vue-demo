@@ -1,11 +1,11 @@
 <template>
   <div class="main" style="font-size: 18px">
-    <div class="date-pick-bar">
-      <DatePicker placement="bottom-start" placeholder="开始日期" style="width: 45%" @on-change="start" :value="startDate"
-                  :options="startDateOptions" :editable="false"></DatePicker> 至
-      <DatePicker placement="bottom-end" placeholder="结束日期" style="width: 45%" :options="endDateOptions"
-                  :value="endDate" @on-change="end" :editable="false"></DatePicker>
-    </div>
+    <!--<div class="date-pick-bar">-->
+      <!--<DatePicker placement="bottom-start" placeholder="开始日期" style="width: 45%" @on-change="start" :value="startDate"-->
+                  <!--:options="startDateOptions" :editable="false"></DatePicker> 至-->
+      <!--<DatePicker placement="bottom-end" placeholder="结束日期" style="width: 45%" :options="endDateOptions"-->
+                  <!--:value="endDate" @on-change="end" :editable="false"></DatePicker>-->
+    <!--</div>-->
     <div style="height: 90%">
       <pull-to @top-state-change="stateChange" :bottom-load-method="handleReachBottom" :top-load-method="handleReachTop"
                style="color: #81d8cf; font-size: 15px" slot="content" :height="scrollHeight">

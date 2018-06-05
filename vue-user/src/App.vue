@@ -25,6 +25,14 @@ export default {
       bus.$emit('addOrder', orderId)
       bus.$emit('addUntreatedNotViewedCount')
     },
+    // /**
+    //  * 唤醒添加购物车
+    //  *
+    //  * @param cart 商品实体
+    //  */
+    //   getBuyCar: function (cart) {
+    //   bus.$emit('getBuyCar',cart)
+    // },
 
     /**
      * 唤醒添加退款订单的方法
