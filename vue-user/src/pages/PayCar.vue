@@ -6,7 +6,7 @@
           <span style="display: flex;justify-content: center;flex-direction:row;">是否购买 价格为{{totalPrice}}</span>
         </div>
         <div style="display: flex;justify-content: center;flex-direction:row;">
-          <div @click="isShow" class="check-buy-btn">确认购买</div>
+          <div @click="buy" class="check-buy-btn">确认购买</div>
           <div @click="isShow" class="check-del-btn">取消</div>
         </div>
       </div>
@@ -197,6 +197,38 @@ export default {
     },
     isShow: function () {
       this.visiable = !this.visiable
+    },
+    buy: function () {
+      const that = this
+      that.isShow()
+      var foodCountMap = {}
+      that.cart.forEach(e => {
+        if (e.checked) {
+          foodCountMap[e.id] = e.quantity
+        }
+      })
+      console.log(foodCountMap)
+      that.utils.http.get('/api/orders', {
+        foodCountMap: JSON.stringify(foodCountMap),
+        stallId: 's_1',
+        phone: '13998441126',
+        appointmentTime: new Date(),
+        remark: '暂无',
+        isPack: false
+      }).then(response => {
+        const ret = parseInt(response.status)
+        switch (ret) {
+          case 0:
+            this.utils.appInfo(that, '下单成功!')
+            break
+          case 2:
+            this.utils.timeOutLogin(this)
+            break
+          default:
+            this.utils.systemError(this)
+            break
+        }
+      })
     }
   },
   computed: {

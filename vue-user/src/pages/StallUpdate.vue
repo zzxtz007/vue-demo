@@ -12,7 +12,7 @@
       <div class="static-msg">
         用户名称：
       </div>
-      <i-input :value.sync="value" v-model="username" style="width: 80%;" id="username"></i-input>
+      <i-input :value.sync="value" v-model="username" style="width: 80%;" id="username" :aria-readonly="username"></i-input>
       <div class="static-msg">
         手机号码：
       </div>
@@ -21,14 +21,20 @@
         姓名：
       </div>
       <i-input :value.sync="value" v-model="name" style="width: 80%;" id="name"></i-input>
-      <div class="static-msg">
-        旧密码：
-      </div>
-      <i-input :value.sync="value" v-model="oldPwd" style="width: 80%;" id="oldPwd"></i-input>
-      <div class="static-msg">
-        新密码：
-      </div>
-      <i-input :value.sync="value" v-model="newPwd" style="width: 80%;" id="newPwd"></i-input>
+      <template v-if="pwdFlag">
+        <i-button type="info" style="width: 70%;margin-top: 20px;" @click="changePwd">修改密码</i-button>
+      </template>
+      <template v-else>
+        <div class="static-msg">
+          旧密码：
+        </div>
+        <i-input :value.sync="value" v-model="oldPwd" style="width: 80%;" id="oldPwd"></i-input>
+        <div class="static-msg">
+          新密码：
+        </div>
+        <i-input :value.sync="value" v-model="newPwd" style="width: 80%;" id="newPwd"></i-input>
+        <i-button type="info" style="width: 80%;margin-top: 20px;" @click="changePwd">修改密码</i-button>
+      </template>
       <div class="btn-container">
         <i-button type="error" style="width: 40%;margin-top: 20px;margin-left: 7.5%" @click="reset">重置</i-button>
         <i-button type="info" style="width: 40%;margin-top: 20px;margin-left: 5%" @click="save">保存</i-button>
@@ -44,16 +50,20 @@ export default {
       value: '',
       id: '',
       imgUrl: '1',
+      username: '',
       name: '',
       phone: '',
       introduction: '',
       tempImgUrl: '',
       tempName: '',
       tempPhone: '',
-      tempIntroduction: '',
+      tempUsername: '',
+      oldPwd: '',
+      newPwd: '',
       route: '',
       imagePath: this.const.imagePath.stall,
       showFlag: true,
+      pwdFlag: true,
       showImage: ''
     }
   },
@@ -66,7 +76,7 @@ export default {
       const that = this
       this.utils.http.get('/api/session')
         .then(response => {
-          if (response.role !== 2) {
+          if (response.role !== 1) {
             this.utils.timeOutLogin()
           }
           const ret = parseInt(response.status)
@@ -166,7 +176,23 @@ export default {
       const that = this
       that.name = that.tempName
       that.phone = that.tempPhone
-      that.introduction = that.tempIntroduction
+      that.username = that.tempUsername
+    },
+    changePwd: function () {
+      const that = this
+      that.pwdFlag = !that.pwdFlag
+      if (that.oldPwd !== that.newPwd && that.pwdFlag) {
+        that.utils.appInfo(that, '两次密码不一致!')
+        that.oldPwd = that.newPwd = ''
+        return
+      } else if (that.oldPwd === '' && that.pwdFlag) {
+        that.utils.appInfo(that, '密码不能为空!')
+        return
+      }
+      if (that.pwdFlag) {
+        that.saveSuccess()
+      }
+      that.oldPwd = that.newPwd = ''
     },
     /*
     保存信息
@@ -213,19 +239,17 @@ export default {
           const ret = parseInt(response.status)
           switch (ret) {
             case 0:
-              if (response.info.imageUrl !== '') {
+              if (response.consumer.imageUrl !== '') {
                 this.showFlag = false
               }
-              that.id = response.info.id
-              that.uid = response.info.id
-              that.imgUrl = response.info.imageUrl
-              that.name = response.info.name
-              that.phone = response.info.phone
-              that.introduction = response.info.introduction
-              that.tempImgUrl = response.info.imageURL
-              that.tempName = response.info.name
-              that.tempPhone = response.info.phone
-              that.tempIntroduction = response.info.introduction
+              that.id = response.consumer.id
+              that.uid = response.consumer.studentId
+              that.username = response.consumer.studentId
+              that.name = response.consumer.name
+              that.phone = response.consumer.phone
+              that.tempName = response.consumer.name
+              that.tempPhone = response.consumer.phone
+              that.tempUsername = response.consumer.studentId
               break
             case 2:
               this.utils.timeOutLogin(this)

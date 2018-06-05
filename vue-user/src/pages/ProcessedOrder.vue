@@ -261,9 +261,8 @@ export default {
         '/api/consumers/orders',
         {'statusList': JSON.stringify(this.list),
           'pageNum': this.pageNum,
-          'pageSize': this.pageSize,
-          'startDate': this.startDate,
-          'endDate': this.endDate})
+          'pageSize': this.pageSize
+        })
         .then(response => {
           const ret = parseInt(response.status)
           this.isRefresh = true
